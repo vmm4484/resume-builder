@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+/* ---- Rich Text Content Styles ---- */
+.rich-text-content p {
+  margin-bottom: 0.25rem;
+}
+.rich-text-content p:last-child {
+  margin-bottom: 0;
+}
+.rich-text-content ul {
+  list-style-type: disc;
+  margin-left: 1.15rem;
+  margin-bottom: 0.25rem;
+}
+.rich-text-content ol {
+  list-style-type: decimal;
+  margin-left: 1.15rem;
+  margin-bottom: 0.25rem;
+}
+.rich-text-content li {
+  margin-bottom: 0.15rem;
+}
+.rich-text-content strong,
+.rich-text-content b {
+  font-weight: 700;
+}
+.rich-text-content em,
+.rich-text-content i {
+  font-style: italic;
+}
+.rich-text-content u {
+  text-decoration: underline;
+}
+.rich-text-content mark {
+  background-color: #fef08a;
+  padding: 0 0.2em;
+  border-radius: 2px;
+}
+
+/* TipTap Editor Styles */
+.tiptap {
+  min-height: 80px;
+}
+.tiptap p.is-editor-empty:first-child::before {
+  color: #9ca3af;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* ---- A4 Print Media Rules ---- */
+@media print {
+  /* Zero physical page margins ensures the browser suppresses all native headers, footers, URLs, dates, and page numbers */
+  @page {
+    size: 210mm 297mm;
+    margin: 0;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Completely suppress all browser scrollbars during print */
+  html, body, #root, * {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  #root {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+    background: #ffffff !important;
+  }
+
+  /* Hide all UI elements, toolbars, sidebars, panels */
+  .no-print,
+  nav,
+  header,
+  aside,
+  button,
+  input,
+  textarea {
+    display: none !important;
+  }
+
+  /* Hide canvas handles, rings, and badges */
+  .react-draggable,
+  .react-resizable-handle,
+  [class*="ring-"],
+  [class*="select-none"] {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Dedicated print root container */
+  #print-root {
+    display: block !important;
+    width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  /* Print table container structure (repeats the 12mm top gap on every printed page) */
+  .resume-print-table {
+    display: table !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: #ffffff !important;
+  }
+
+  .resume-print-thead {
+    display: table-header-group !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  .resume-print-thead tr,
+  .resume-print-thead th {
+    height: 12mm !important;
+    max-height: 12mm !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .resume-print-table tbody {
+    display: table-row-group !important;
+  }
+
+  .resume-print-table tbody td {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    vertical-align: top !important;
+  }
+
+  /* Continuous resume print sheet (Template mode) */
+  /* Pulls Page 1 up by 12mm to cancel the thead spacer on Page 1, so Page 1 starts at 0 with zero extra space */
+  .resume-continuous-sheet {
+    display: block !important;
+    position: relative !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: -12mm 0 0 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    background-color: #ffffff !important;
+    overflow: visible !important;
+  }
+
+  /* Modern Template print layout (robust table columns prevents flexbox fragmentation distortion) */
+  .modern-resume-wrapper {
+    display: table !important;
+    width: 210mm !important;
+    table-layout: fixed !important;
+  }
+
+  .modern-resume-sidebar {
+    display: table-cell !important;
+    width: 32% !important;
+    vertical-align: top !important;
+    background-color: #1e293b !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .modern-resume-main {
+    display: table-cell !important;
+    width: 68% !important;
+    vertical-align: top !important;
+  }
+
+  /* Allow sections and paragraphs to flow continuously across page breaks without premature cuts */
+  .resume-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  /* Large paragraphs and rich text flow smoothly line-by-line across pages just like Word */
+  p,
+  .rich-text-content,
+  .rich-text-content p,
+  .resume-entry-item {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    orphans: 2;
+    widows: 2;
+  }
+
+  /* Headings stay connected to their following content (never orphaned at page bottom) */
+  h1, h2, h3,
+  .section-heading,
+  [class*="Heading"],
+  [class*="Section"] {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Prevent trailing margins on the last section from triggering an accidental extra page */
+  .resume-section:last-child,
+  .resume-entry-item:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  /* Each printable A4 page sheet (Canvas mode) */
+  .resume-sheet-print,
+  .resume-page-sheet {
+    display: block !important;
+    position: relative !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    min-width: 210mm !important;
+    min-height: 297mm !important;
+    max-width: 210mm !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    background-color: #ffffff !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Suppress extra trailing page on the final sheet */
+  .resume-sheet-print:last-of-type,
+  .resume-sheet-print:last-child,
+  .resume-page-sheet:last-of-type,
+  .resume-page-sheet:last-child {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
+  /* Prevent awkward page break cuts inside sections */
+  .resume-sheet-print div {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
