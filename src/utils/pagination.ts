@@ -16,6 +16,7 @@ export interface PaginatedResumePage {
   sectionTitles?: SectionTitles;
   sectionOrder?: string[];
   sectionFontSizes?: SectionFontSizes;
+  fontFamily?: string;
 }
 
 /**
@@ -119,6 +120,7 @@ export function paginateResumeData(
         sectionTitles: data.sectionTitles,
         sectionOrder: data.sectionOrder,
         sectionFontSizes: data.sectionFontSizes,
+        fontFamily: data.fontFamily,
       },
     ];
   }
@@ -219,6 +221,7 @@ export function paginateResumeData(
       sectionTitles: data.sectionTitles,
       sectionOrder: data.sectionOrder,
       sectionFontSizes: data.sectionFontSizes,
+      fontFamily: data.fontFamily,
     },
     {
       pageNumber: 2,
@@ -236,6 +239,7 @@ export function paginateResumeData(
       sectionTitles: data.sectionTitles,
       sectionOrder: data.sectionOrder,
       sectionFontSizes: data.sectionFontSizes,
+      fontFamily: data.fontFamily,
     },
   ];
 }

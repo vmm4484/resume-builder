@@ -1,5 +1,6 @@
 import type { StructuredResumeData } from '../../../types/resume';
 import type { PaginatedResumePage } from '../../../utils/pagination';
+import { getFontFamilyCss } from '../../../utils/fontFamilies';
 import { Mail, Phone, MapPin, Globe } from 'lucide-react';
 import { LinkedinIcon, GithubIcon } from '../../ui/Icons';
 
@@ -138,8 +139,16 @@ export default function CreativeTemplate({
     }
   };
 
+  const activeFont = getFontFamilyCss(
+    pageData?.fontFamily || data.fontFamily,
+    'Arial, Helvetica, "Nimbus Sans", sans-serif'
+  );
+
   return (
-    <div className="w-full min-h-full font-sans text-slate-800 bg-white">
+    <div
+      className="w-full min-h-full text-slate-800 bg-white"
+      style={{ fontFamily: activeFont }}
+    >
       {/* ============ ACCENT HEADER ============ */}
       {personalInfo && (
         <div className="bg-gradient-to-r from-violet-600 via-indigo-600 to-indigo-700 text-white px-8 py-7 shadow-sm">

@@ -1,5 +1,6 @@
 import type { StructuredResumeData } from '../../../types/resume';
 import type { PaginatedResumePage } from '../../../utils/pagination';
+import { getFontFamilyCss } from '../../../utils/fontFamilies';
 
 interface TemplateProps {
   data: StructuredResumeData;
@@ -153,10 +154,15 @@ export default function TechnicalTemplate({
     }
   };
 
+  const activeFont = getFontFamilyCss(
+    pageData?.fontFamily || data.fontFamily,
+    'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
+  );
+
   return (
     <div
-      className="w-full min-h-full font-mono text-slate-800"
-      style={{ padding: '38px 42px', fontSize: '13.5px' }}
+      className="w-full min-h-full text-slate-800"
+      style={{ padding: '38px 42px', fontSize: '13.5px', fontFamily: activeFont }}
     >
       {/* ============ HEADER ============ */}
       {personalInfo && (

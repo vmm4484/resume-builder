@@ -16,6 +16,7 @@ import SectionAccordion from './SectionAccordion';
 import RichTextEditor from '../toolbar/RichTextEditor';
 import FontSizeControl from './FontSizeControl';
 import { useResumeStore } from '../../store/useResumeStore';
+import { FONT_OPTIONS } from '../../utils/fontFamilies';
 import type {
   StructuredExperience,
   StructuredEducation,
@@ -602,8 +603,40 @@ export default function FormEditor() {
       >
         <div className="space-y-3">
           <p className="text-xs text-gray-500 leading-relaxed">
-            Change font sizes across your entire resume. Changing <strong className="text-gray-700">All Body Text</strong> or <strong className="text-gray-700">All Section Headings</strong> updates all sections at once. You can directly edit the values by typing or use <span className="font-semibold">- / +</span>.
+            Customize the font family and font sizes across your entire resume. Changing <strong className="text-gray-700">All Body Text</strong> or <strong className="text-gray-700">All Section Headings</strong> updates all sections at once. You can directly edit the values by typing or use <span className="font-semibold">- / +</span>.
           </p>
+
+          {/* Font Family Selector */}
+          <div className="bg-slate-50/90 rounded-lg p-3 border border-slate-200/70">
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                Font Family
+              </label>
+              <span className="text-[11px] text-gray-500">
+                Applied to all sections
+              </span>
+            </div>
+            <select
+              value={currentProject.structuredData.fontFamily || (currentProject.templateId === 'traditional' ? 'times' : 'arial')}
+              onChange={(e) => updateStructuredData({ fontFamily: e.target.value })}
+              className="w-full px-3 py-2 text-xs font-medium border border-gray-300 rounded-lg bg-white shadow-2xs focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer text-slate-800"
+            >
+              <optgroup label="Sans-Serif (Modern & ATS-Friendly)">
+                {FONT_OPTIONS.filter((f) => f.category === 'sans-serif').map((font) => (
+                  <option key={font.id} value={font.id}>
+                    {font.name}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Serif (Classic & Executive)">
+                {FONT_OPTIONS.filter((f) => f.category === 'serif').map((font) => (
+                  <option key={font.id} value={font.id}>
+                    {font.name}
+                  </option>
+                ))}
+              </optgroup>
+            </select>
+          </div>
 
           <div className="bg-slate-50/90 rounded-lg p-3 border border-slate-200/70 space-y-0.5">
             <div className="flex items-center justify-between pb-1.5 mb-1 border-b border-slate-200">

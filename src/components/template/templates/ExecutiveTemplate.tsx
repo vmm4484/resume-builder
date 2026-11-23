@@ -1,5 +1,6 @@
 import type { StructuredResumeData } from '../../../types/resume';
 import type { PaginatedResumePage } from '../../../utils/pagination';
+import { getFontFamilyCss } from '../../../utils/fontFamilies';
 
 interface TemplateProps {
   data: StructuredResumeData;
@@ -240,13 +241,18 @@ export default function ExecutiveTemplate({
   const nameSize = sectionFontSizes.name || 30;
   const contactSize = sectionFontSizes.contact || 12.5;
 
+  const activeFont = getFontFamilyCss(
+    pageData?.fontFamily || data.fontFamily,
+    'Georgia, "Times New Roman", serif'
+  );
+
   return (
     <div
-      className="w-full min-h-full font-serif"
+      className="w-full min-h-full"
       style={{
         color: '#1f2937',
         padding: '40px 40px',
-        fontFamily: 'Georgia, "Times New Roman", serif',
+        fontFamily: activeFont,
       }}
     >
       {/* ============ HEADER ============ */}

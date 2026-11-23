@@ -1,5 +1,6 @@
 import type { StructuredResumeData } from '../../../types/resume';
 import type { PaginatedResumePage } from '../../../utils/pagination';
+import { getFontFamilyCss } from '../../../utils/fontFamilies';
 
 interface TemplateProps {
   data: StructuredResumeData;
@@ -67,6 +68,10 @@ export default function TraditionalTemplate({
 
   const globalBody = sectionFontSizes.globalBody;
   const globalHeading = sectionFontSizes.globalHeading;
+  const activeFont = getFontFamilyCss(
+    pageData?.fontFamily || data.fontFamily,
+    '"Times New Roman", Times, Georgia, Cambria, serif'
+  );
 
   const renderSection = (key: string) => {
     switch (key) {
@@ -76,7 +81,7 @@ export default function TraditionalTemplate({
           <div key="summary" className="resume-section">
             <div className="border-t border-dotted border-neutral-700 my-3.5" />
             <h2
-              className="font-bold text-black uppercase font-serif tracking-wide w-full mb-2"
+              className="font-bold text-black uppercase tracking-wide w-full mb-2"
               style={{ fontSize: `${sectionFontSizes.title_summary || globalHeading || 13.5}px` }}
             >
               {sectionTitles?.summary || 'PROFESSIONAL SUMMARY'}
@@ -85,7 +90,7 @@ export default function TraditionalTemplate({
               <div className="w-[155px] shrink-0" />
               <div className="flex-1">
                 <div
-                  className="rich-text-content text-black font-serif leading-relaxed text-justify"
+                  className="rich-text-content text-black leading-relaxed text-justify"
                   style={{ fontSize: `${sectionFontSizes.summary || globalBody || 13}px` }}
                   dangerouslySetInnerHTML={{ __html: summaryHtml }}
                 />
@@ -100,7 +105,7 @@ export default function TraditionalTemplate({
           <div key="skills" className="resume-section">
             <div className="border-t border-dotted border-neutral-700 my-3.5" />
             <h2
-              className="font-bold text-black uppercase font-serif tracking-wide w-full mb-2"
+              className="font-bold text-black uppercase tracking-wide w-full mb-2"
               style={{ fontSize: `${sectionFontSizes.title_skills || globalHeading || 13.5}px` }}
             >
               {sectionTitles?.skills || 'SKILLS'}
@@ -109,7 +114,7 @@ export default function TraditionalTemplate({
               <div className="w-[155px] shrink-0" />
               <div className="flex-1">
                 <div
-                  className="grid grid-cols-2 gap-x-8 font-serif text-black"
+                  className="grid grid-cols-2 gap-x-8 text-black"
                   style={{ fontSize: `${sectionFontSizes.skills || globalBody || 13}px` }}
                 >
                   <div className="space-y-1">
@@ -143,7 +148,7 @@ export default function TraditionalTemplate({
             
             {/* Section Heading taking full width of the line */}
             <h2
-              className="font-bold text-black uppercase font-serif tracking-wide w-full mb-2.5"
+              className="font-bold text-black uppercase tracking-wide w-full mb-2.5"
               style={{ fontSize: `${sectionFontSizes.title_experience || globalHeading || 13.5}px` }}
             >
               {sectionTitles?.experience || 'WORK HISTORY'}
@@ -159,7 +164,7 @@ export default function TraditionalTemplate({
                     <div className="w-[155px] shrink-0 pr-4 pt-0.5">
                       {dateStr && (
                         <p
-                          className="text-neutral-500 font-serif leading-tight"
+                          className="text-neutral-500 leading-tight"
                           style={{ fontSize: `${Math.max(10, expFontSize - 0.5)}px` }}
                         >
                           {dateStr}
@@ -170,13 +175,13 @@ export default function TraditionalTemplate({
                     {/* Right Column: Title, Company, Bullets */}
                     <div className="flex-1">
                       <p
-                        className="font-bold text-black font-serif leading-snug"
+                        className="font-bold text-black leading-snug"
                         style={{ fontSize: `${expFontSize + 1}px` }}
                       >
                         {exp.role || 'Role / Position'}
                       </p>
                       <p
-                        className="font-bold italic text-black font-serif mt-0.5 leading-snug"
+                        className="font-bold italic text-black mt-0.5 leading-snug"
                         style={{ fontSize: `${expFontSize + 0.5}px` }}
                       >
                         {exp.company}
@@ -184,7 +189,7 @@ export default function TraditionalTemplate({
                       </p>
                       {exp.descriptionHtml && (
                         <div
-                          className="mt-1.5 rich-text-content text-black font-serif leading-relaxed"
+                          className="mt-1.5 rich-text-content text-black leading-relaxed"
                           style={{ fontSize: `${expFontSize}px` }}
                           dangerouslySetInnerHTML={{ __html: exp.descriptionHtml }}
                         />
@@ -206,7 +211,7 @@ export default function TraditionalTemplate({
             
             {/* Section Heading taking full width of the line */}
             <h2
-              className="font-bold text-black uppercase font-serif tracking-wide w-full mb-2.5"
+              className="font-bold text-black uppercase tracking-wide w-full mb-2.5"
               style={{ fontSize: `${sectionFontSizes.title_education || globalHeading || 13.5}px` }}
             >
               {sectionTitles?.education || 'EDUCATION'}
@@ -222,7 +227,7 @@ export default function TraditionalTemplate({
                     <div className="w-[155px] shrink-0 pr-4 pt-0.5">
                       {dateStr && (
                         <p
-                          className="text-neutral-500 font-serif leading-tight"
+                          className="text-neutral-500 leading-tight"
                           style={{ fontSize: `${Math.max(10, eduFontSize - 0.5)}px` }}
                         >
                           {dateStr}
@@ -233,13 +238,13 @@ export default function TraditionalTemplate({
                     {/* Right Column: Degree, Institution, Bullets */}
                     <div className="flex-1">
                       <p
-                        className="font-bold text-black font-serif leading-snug"
+                        className="font-bold text-black leading-snug"
                         style={{ fontSize: `${eduFontSize + 1}px` }}
                       >
                         {edu.degree || 'Degree'}
                       </p>
                       <p
-                        className="font-bold italic text-black font-serif mt-0.5 leading-snug"
+                        className="font-bold italic text-black mt-0.5 leading-snug"
                         style={{ fontSize: `${eduFontSize + 0.5}px` }}
                       >
                         {edu.institution}
@@ -247,7 +252,7 @@ export default function TraditionalTemplate({
                       </p>
                       {edu.descriptionHtml && (
                         <div
-                          className="mt-1 rich-text-content text-black font-serif leading-relaxed"
+                          className="mt-1 rich-text-content text-black leading-relaxed"
                           style={{ fontSize: `${eduFontSize}px` }}
                           dangerouslySetInnerHTML={{ __html: edu.descriptionHtml }}
                         />
@@ -268,7 +273,7 @@ export default function TraditionalTemplate({
           <div key={customSec.id} className="resume-section">
             <div className="border-t border-dotted border-neutral-700 my-3.5" />
             <h2
-              className="font-bold text-black uppercase font-serif tracking-wide w-full mb-2"
+              className="font-bold text-black uppercase tracking-wide w-full mb-2"
               style={{ fontSize: `${sectionFontSizes[`title_${customSec.id}`] || globalHeading || 13.5}px` }}
             >
               {customSec.title}
@@ -277,7 +282,7 @@ export default function TraditionalTemplate({
               <div className="w-[155px] shrink-0" />
               <div className="flex-1">
                 <div
-                  className="rich-text-content text-black font-serif leading-relaxed"
+                  className="rich-text-content text-black leading-relaxed"
                   style={{ fontSize: `${customFontSize}px` }}
                   dangerouslySetInnerHTML={{ __html: customSec.contentHtml }}
                 />
@@ -291,10 +296,10 @@ export default function TraditionalTemplate({
 
   return (
     <div
-      className="w-full min-h-full font-serif text-black bg-white"
+      className="w-full min-h-full text-black bg-white"
       style={{
         padding: '48px 48px 56px 48px',
-        fontFamily: '"Times New Roman", Times, Georgia, Cambria, serif',
+        fontFamily: activeFont,
       }}
     >
       {/* ============ CENTERED HEADER ============ */}
@@ -302,7 +307,7 @@ export default function TraditionalTemplate({
         <div className="text-center">
           {/* Full Name */}
           <h1
-            className="font-bold tracking-wider uppercase text-black font-serif leading-tight"
+            className="font-bold tracking-wider uppercase text-black leading-tight"
             style={{ fontSize: `${sectionFontSizes.name || 26}px` }}
           >
             {personalInfo.fullName || 'Your Name'}
@@ -311,7 +316,7 @@ export default function TraditionalTemplate({
           {/* Job Title */}
           {personalInfo.jobTitle && (
             <p
-              className="font-bold text-black font-serif mt-1"
+              className="font-bold text-black mt-1"
               style={{
                 fontSize: `${sectionFontSizes.name ? Math.round(sectionFontSizes.name * 0.65) : 17}px`,
               }}
@@ -323,7 +328,7 @@ export default function TraditionalTemplate({
           {/* Location */}
           {personalInfo.location && (
             <p
-              className="text-black font-serif mt-2"
+              className="text-black mt-2"
               style={{ fontSize: `${sectionFontSizes.contact || 13}px` }}
             >
               {personalInfo.location}
@@ -333,7 +338,7 @@ export default function TraditionalTemplate({
           {/* Contact Details */}
           {contactDetails.length > 0 && (
             <p
-              className="text-black font-serif mt-0.5"
+              className="text-black mt-0.5"
               style={{ fontSize: `${sectionFontSizes.contact || 13}px` }}
             >
               {contactDetails.join(' - ')}

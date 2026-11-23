@@ -1,5 +1,6 @@
 import type { StructuredResumeData } from '../../../types/resume';
 import type { PaginatedResumePage } from '../../../utils/pagination';
+import { getFontFamilyCss } from '../../../utils/fontFamilies';
 
 interface TemplateProps {
   data: StructuredResumeData;
@@ -205,10 +206,15 @@ export default function MinimalistTemplate({
     }
   };
 
+  const activeFont = getFontFamilyCss(
+    pageData?.fontFamily || data.fontFamily,
+    'Arial, Helvetica, "Nimbus Sans", sans-serif'
+  );
+
   return (
     <div
-      className="w-full min-h-full font-sans"
-      style={{ color: '#374151', padding: '40px 42px' }}
+      className="w-full min-h-full"
+      style={{ color: '#374151', padding: '40px 42px', fontFamily: activeFont }}
     >
       {/* ============ HEADER ============ */}
       {personalInfo && (

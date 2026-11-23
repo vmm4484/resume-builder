@@ -1,5 +1,6 @@
 import type { StructuredResumeData } from '../../../types/resume';
 import type { PaginatedResumePage } from '../../../utils/pagination';
+import { getFontFamilyCss } from '../../../utils/fontFamilies';
 import {
   Mail,
   Phone,
@@ -199,8 +200,16 @@ export default function ModernTemplate({
     }
   };
 
+  const activeFont = getFontFamilyCss(
+    pageData?.fontFamily || data.fontFamily,
+    'Arial, Helvetica, "Nimbus Sans", sans-serif'
+  );
+
   return (
-    <div className="modern-resume-wrapper w-full min-h-full flex text-[13.5px] leading-[1.5] font-sans">
+    <div
+      className="modern-resume-wrapper w-full min-h-full flex text-[13.5px] leading-[1.5]"
+      style={{ fontFamily: activeFont }}
+    >
       {/* ============ LEFT SIDEBAR ============ */}
       <div
         className="modern-resume-sidebar shrink-0 text-white p-6"

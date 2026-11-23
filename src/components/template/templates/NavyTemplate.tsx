@@ -1,5 +1,6 @@
 import type { StructuredResumeData } from '../../../types/resume';
 import type { PaginatedResumePage } from '../../../utils/pagination';
+import { getFontFamilyCss } from '../../../utils/fontFamilies';
 
 interface TemplateProps {
   data: StructuredResumeData;
@@ -55,6 +56,11 @@ export default function NavyTemplate({
   const globalBody = sectionFontSizes.globalBody;
   const globalHeading = sectionFontSizes.globalHeading;
 
+  const activeFont = getFontFamilyCss(
+    pageData?.fontFamily || data.fontFamily,
+    'Arial, Helvetica, "Nimbus Sans", sans-serif'
+  );
+
   const renderSection = (key: string) => {
     switch (key) {
       case 'summary': {
@@ -70,7 +76,7 @@ export default function NavyTemplate({
               {sectionTitles?.summary || 'PROFESSIONAL SUMMARY'}
             </h2>
             <div
-              className="rich-text-content text-slate-700 leading-relaxed font-sans"
+              className="rich-text-content text-slate-700 leading-relaxed"
               style={{ fontSize: `${textSize}px`, lineHeight: '1.62' }}
               dangerouslySetInnerHTML={{ __html: summaryHtml }}
             />
@@ -123,7 +129,7 @@ export default function NavyTemplate({
                   </div>
                   {exp.descriptionHtml && (
                     <div
-                      className="mt-1.5 rich-text-content text-slate-600 font-sans"
+                      className="mt-1.5 rich-text-content text-slate-600"
                       style={{
                         fontSize: `${expFontSize}px`,
                         lineHeight: '1.58',
@@ -151,7 +157,7 @@ export default function NavyTemplate({
               {sectionTitles?.skills || 'SKILLS & EXPERTISE'}
             </h2>
             <p
-              className="text-slate-700 font-sans leading-relaxed"
+              className="text-slate-700 leading-relaxed"
               style={{ fontSize: `${skillFontSize}px`, lineHeight: '1.6' }}
             >
               {displaySkills.map((s) => s.name).join(' • ')}
@@ -214,7 +220,7 @@ export default function NavyTemplate({
                     </div>
                     {edu.descriptionHtml && (
                       <div
-                        className="mt-1 rich-text-content text-slate-600 font-sans"
+                        className="mt-1 rich-text-content text-slate-600"
                         style={{
                           fontSize: `${eduFontSize}px`,
                           lineHeight: '1.55',
@@ -244,7 +250,7 @@ export default function NavyTemplate({
               {customSec.title}
             </h2>
             <div
-              className="rich-text-content text-slate-700 font-sans leading-relaxed"
+              className="rich-text-content text-slate-700 leading-relaxed"
               style={{ fontSize: `${customSize}px`, lineHeight: '1.6' }}
               dangerouslySetInnerHTML={{ __html: customSec.contentHtml }}
             />
@@ -259,8 +265,8 @@ export default function NavyTemplate({
 
   return (
     <div
-      className="w-full min-h-full font-sans bg-white"
-      style={{ color: '#334155', padding: '34px 38px' }}
+      className="w-full min-h-full bg-white"
+      style={{ color: '#334155', padding: '34px 38px', fontFamily: activeFont }}
     >
       {/* ============ NAVY HEADER BANNER ============ */}
       {personalInfo && (

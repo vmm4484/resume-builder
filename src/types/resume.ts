@@ -80,6 +80,7 @@ export interface StructuredResumeData {
   sectionTitles?: SectionTitles;
   sectionOrder?: string[];
   sectionFontSizes?: SectionFontSizes;
+  fontFamily?: string;
 }
 
 export type TemplateId =
