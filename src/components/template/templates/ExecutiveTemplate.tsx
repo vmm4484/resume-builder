@@ -26,6 +26,7 @@ export default function ExecutiveTemplate({
   const customSections = pageData ? pageData.customSections : data.customSections;
   const sectionTitles = pageData?.sectionTitles || data.sectionTitles;
   const sectionOrder = pageData?.sectionOrder || data.sectionOrder;
+  const sectionFontSizes = pageData?.sectionFontSizes || data.sectionFontSizes || {};
 
   // Deduplicate skills by normalized lowercased name
   const displaySkills = (rawSkills || []).filter(
@@ -36,17 +37,23 @@ export default function ExecutiveTemplate({
   const defaultOrder = ['summary', 'skills', 'experience', 'education', ...customSections.map((c) => c.id)];
   const effectiveOrder = sectionOrder && sectionOrder.length > 0 ? sectionOrder : defaultOrder;
 
+  const globalBody = sectionFontSizes.globalBody;
+  const globalHeading = sectionFontSizes.globalHeading;
+
   const renderSection = (key: string) => {
     switch (key) {
       case 'summary':
         if (!summaryHtml) return null;
         return (
           <div key="summary" className="resume-section mb-5">
-            <ExecSection title={sectionTitles?.summary || 'Professional Summary'} />
+            <ExecSection
+              title={sectionTitles?.summary || 'Professional Summary'}
+              fontSize={sectionFontSizes.title_summary || globalHeading}
+            />
             <div
               className="rich-text-content"
               style={{
-                fontSize: '14px',
+                fontSize: `${sectionFontSizes.summary || globalBody || 14}px`,
                 color: '#374151',
                 lineHeight: '1.65',
                 fontFamily: 'system-ui, sans-serif',
@@ -60,11 +67,14 @@ export default function ExecutiveTemplate({
         if (!displaySkills || displaySkills.length === 0) return null;
         return (
           <div key="skills" className="resume-section mb-5">
-            <ExecSection title={sectionTitles?.skills || 'Skills & Expertise'} />
+            <ExecSection
+              title={sectionTitles?.skills || 'Skills & Expertise'}
+              fontSize={sectionFontSizes.title_skills || globalHeading}
+            />
             <div
               className="flex flex-wrap gap-x-4 gap-y-1.5"
               style={{
-                fontSize: '13.5px',
+                fontSize: `${sectionFontSizes.skills || globalBody || 13.5}px`,
                 color: '#374151',
                 fontFamily: 'system-ui, sans-serif',
               }}
@@ -82,11 +92,15 @@ export default function ExecutiveTemplate({
           </div>
         );
 
-      case 'experience':
+      case 'experience': {
         if (!experience || experience.length === 0) return null;
+        const expFontSize = sectionFontSizes.experience || globalBody || 13.5;
         return (
           <div key="experience" className="resume-section mb-5">
-            <ExecSection title={sectionTitles?.experience || 'Work Experience'} />
+            <ExecSection
+              title={sectionTitles?.experience || 'Work Experience'}
+              fontSize={sectionFontSizes.title_experience || globalHeading}
+            />
             <div className="space-y-4">
               {experience.map((exp) => (
                 <div key={exp.id} className="resume-entry-item">
@@ -95,7 +109,7 @@ export default function ExecutiveTemplate({
                       <p
                         className="font-bold"
                         style={{
-                          fontSize: '16px',
+                          fontSize: `${expFontSize + 2.5}px`,
                           color: '#111827',
                           fontFamily: 'Georgia, "Times New Roman", serif',
                         }}
@@ -104,7 +118,7 @@ export default function ExecutiveTemplate({
                       </p>
                       <p
                         className="italic"
-                        style={{ fontSize: '14px', color: '#4b5563' }}
+                        style={{ fontSize: `${expFontSize + 0.5}px`, color: '#4b5563' }}
                       >
                         {exp.company}
                         {exp.location ? ` — ${exp.location}` : ''}
@@ -112,7 +126,7 @@ export default function ExecutiveTemplate({
                     </div>
                     <p
                       className="shrink-0 font-medium font-sans"
-                      style={{ fontSize: '12px', color: '#6b7280' }}
+                      style={{ fontSize: `${Math.max(10, expFontSize - 1.5)}px`, color: '#6b7280' }}
                     >
                       {exp.startDate}
                       {(exp.endDate || exp.current) &&
@@ -123,7 +137,7 @@ export default function ExecutiveTemplate({
                     <div
                       className="mt-1.5 rich-text-content"
                       style={{
-                        fontSize: '13.5px',
+                        fontSize: `${expFontSize}px`,
                         color: '#374151',
                         lineHeight: '1.6',
                         fontFamily: 'system-ui, sans-serif',
@@ -136,12 +150,17 @@ export default function ExecutiveTemplate({
             </div>
           </div>
         );
+      }
 
-      case 'education':
+      case 'education': {
         if (!education || education.length === 0) return null;
+        const eduFontSize = sectionFontSizes.education || globalBody || 13.5;
         return (
           <div key="education" className="resume-section mb-5">
-            <ExecSection title={sectionTitles?.education || 'Education'} />
+            <ExecSection
+              title={sectionTitles?.education || 'Education'}
+              fontSize={sectionFontSizes.title_education || globalHeading}
+            />
             <div className="space-y-3">
               {education.map((edu) => (
                 <div key={edu.id} className="resume-entry-item">
@@ -150,7 +169,7 @@ export default function ExecutiveTemplate({
                       <p
                         className="font-bold"
                         style={{
-                          fontSize: '15.5px',
+                          fontSize: `${eduFontSize + 2}px`,
                           color: '#111827',
                           fontFamily: 'Georgia, "Times New Roman", serif',
                         }}
@@ -159,7 +178,7 @@ export default function ExecutiveTemplate({
                       </p>
                       <p
                         className="italic"
-                        style={{ fontSize: '14px', color: '#4b5563' }}
+                        style={{ fontSize: `${eduFontSize + 0.5}px`, color: '#4b5563' }}
                       >
                         {edu.institution}
                         {edu.location ? ` — ${edu.location}` : ''}
@@ -167,7 +186,7 @@ export default function ExecutiveTemplate({
                     </div>
                     <p
                       className="shrink-0 font-medium font-sans"
-                      style={{ fontSize: '12px', color: '#6b7280' }}
+                      style={{ fontSize: `${Math.max(10, eduFontSize - 1.5)}px`, color: '#6b7280' }}
                     >
                       {edu.startDate}
                       {edu.endDate && ` – ${edu.endDate}`}
@@ -177,7 +196,7 @@ export default function ExecutiveTemplate({
                     <div
                       className="mt-1 rich-text-content"
                       style={{
-                        fontSize: '13px',
+                        fontSize: `${eduFontSize}px`,
                         color: '#4b5563',
                         lineHeight: '1.55',
                         fontFamily: 'system-ui, sans-serif',
@@ -190,17 +209,22 @@ export default function ExecutiveTemplate({
             </div>
           </div>
         );
+      }
 
       default: {
         const customSec = customSections.find((c) => c.id === key);
         if (!customSec || !customSec.contentHtml) return null;
+        const customSize = sectionFontSizes[customSec.id] || globalBody || 13.5;
         return (
           <div key={customSec.id} className="resume-section mb-5">
-            <ExecSection title={customSec.title} />
+            <ExecSection
+              title={customSec.title}
+              fontSize={sectionFontSizes[`title_${customSec.id}`] || globalHeading}
+            />
             <div
               className="rich-text-content"
               style={{
-                fontSize: '13.5px',
+                fontSize: `${customSize}px`,
                 color: '#4b5563',
                 lineHeight: '1.6',
                 fontFamily: 'system-ui, sans-serif',
@@ -212,6 +236,9 @@ export default function ExecutiveTemplate({
       }
     }
   };
+
+  const nameSize = sectionFontSizes.name || 30;
+  const contactSize = sectionFontSizes.contact || 12.5;
 
   return (
     <div
@@ -242,7 +269,7 @@ export default function ExecutiveTemplate({
                 <h1
                   className="font-bold leading-tight"
                   style={{
-                    fontSize: '30px',
+                    fontSize: `${nameSize}px`,
                     color: '#111827',
                     fontFamily: 'Georgia, "Times New Roman", serif',
                   }}
@@ -252,7 +279,7 @@ export default function ExecutiveTemplate({
                 {personalInfo.jobTitle && (
                   <p
                     className="italic mt-0.5"
-                    style={{ fontSize: '16px', color: '#4b5563' }}
+                    style={{ fontSize: `${Math.max(12, nameSize - 14)}px`, color: '#4b5563' }}
                   >
                     {personalInfo.jobTitle}
                   </p>
@@ -263,7 +290,7 @@ export default function ExecutiveTemplate({
             {/* Contact right-aligned */}
             <div
               className="text-right space-y-0.5"
-              style={{ fontSize: '12.5px', color: '#4b5563', fontFamily: 'system-ui, sans-serif' }}
+              style={{ fontSize: `${contactSize}px`, color: '#4b5563', fontFamily: 'system-ui, sans-serif' }}
             >
               {personalInfo.email && <p>{personalInfo.email}</p>}
               {personalInfo.phone && <p>{personalInfo.phone}</p>}
@@ -282,12 +309,12 @@ export default function ExecutiveTemplate({
   );
 }
 
-function ExecSection({ title }: { title: string }) {
+function ExecSection({ title, fontSize }: { title: string; fontSize?: number }) {
   return (
     <h2
       className="uppercase tracking-wider mb-2.5 pb-1"
       style={{
-        fontSize: '15px',
+        fontSize: `${fontSize || 15}px`,
         color: '#1f2937',
         fontWeight: 700,
         borderBottom: '2px solid #1f2937',

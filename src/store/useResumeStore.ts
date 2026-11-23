@@ -40,6 +40,7 @@ const createDefaultStructuredData = (): StructuredResumeData => ({
     education: 'Education',
   },
   sectionOrder: ['summary', 'skills', 'experience', 'education'],
+  sectionFontSizes: {},
 });
 
 // Create a new blank project
@@ -140,6 +141,8 @@ interface ResumeStoreState {
     key: 'summary' | 'experience' | 'education' | 'skills',
     title: string
   ) => void;
+  updateSectionFontSize: (key: string, size: number) => void;
+  resetSectionFontSizes: () => void;
   moveSection: (sectionKey: string, direction: 'up' | 'down') => void;
 
   // Canvas layer operations
@@ -446,6 +449,29 @@ export const useResumeStore = create<ResumeStoreState>()(
               ...current.structuredData.sectionTitles,
               [key]: title,
             },
+          },
+        }));
+      },
+
+      updateSectionFontSize: (key, size) => {
+        mutateProject((current) => ({
+          ...current,
+          structuredData: {
+            ...current.structuredData,
+            sectionFontSizes: {
+              ...(current.structuredData.sectionFontSizes || {}),
+              [key]: size,
+            },
+          },
+        }));
+      },
+
+      resetSectionFontSizes: () => {
+        mutateProject((current) => ({
+          ...current,
+          structuredData: {
+            ...current.structuredData,
+            sectionFontSizes: {},
           },
         }));
       },

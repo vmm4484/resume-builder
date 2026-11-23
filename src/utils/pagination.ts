@@ -1,4 +1,4 @@
-import type { StructuredResumeData, SectionTitles } from '../types/resume';
+import type { StructuredResumeData, SectionTitles, SectionFontSizes } from '../types/resume';
 
 export interface PaginatedResumePage {
   pageNumber: number;
@@ -15,6 +15,7 @@ export interface PaginatedResumePage {
   educationContinued?: boolean;
   sectionTitles?: SectionTitles;
   sectionOrder?: string[];
+  sectionFontSizes?: SectionFontSizes;
 }
 
 /**
@@ -117,6 +118,7 @@ export function paginateResumeData(
         educationContinued: false,
         sectionTitles: data.sectionTitles,
         sectionOrder: data.sectionOrder,
+        sectionFontSizes: data.sectionFontSizes,
       },
     ];
   }
@@ -216,6 +218,7 @@ export function paginateResumeData(
       educationContinued: false,
       sectionTitles: data.sectionTitles,
       sectionOrder: data.sectionOrder,
+      sectionFontSizes: data.sectionFontSizes,
     },
     {
       pageNumber: 2,
@@ -232,6 +235,7 @@ export function paginateResumeData(
       educationContinued: eduContinued,
       sectionTitles: data.sectionTitles,
       sectionOrder: data.sectionOrder,
+      sectionFontSizes: data.sectionFontSizes,
     },
   ];
 }

@@ -21,6 +21,7 @@ import {
   Palette,
   BookOpen,
   Columns2,
+  ScrollText,
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { exportProjectAsJson } from '../utils/exportJson';
@@ -36,6 +37,8 @@ import ExecutiveTemplate from '../components/template/templates/ExecutiveTemplat
 import TechnicalTemplate from '../components/template/templates/TechnicalTemplate';
 import CreativeTemplate from '../components/template/templates/CreativeTemplate';
 import ClassicTemplate from '../components/template/templates/ClassicTemplate';
+import TraditionalTemplate from '../components/template/templates/TraditionalTemplate';
+import NavyTemplate from '../components/template/templates/NavyTemplate';
 import ZoomControls from '../components/common/ZoomControls';
 import Modal from '../components/ui/Modal';
 import Artboard from '../components/canvas/Artboard';
@@ -51,6 +54,22 @@ const LAYOUT_OPTIONS: {
   icon: React.ReactNode;
   bgPreview: string;
 }[] = [
+  {
+    id: 'navy',
+    label: 'Corporate Navy',
+    tag: 'Executive',
+    desc: 'Deep navy banner header, high-contrast typography, dot-separated skills, and clean corporate hierarchy.',
+    icon: <Crown className="w-4 h-4 text-blue-900" />,
+    bgPreview: 'from-blue-950 to-indigo-950',
+  },
+  {
+    id: 'traditional',
+    label: 'Traditional Split',
+    tag: 'Ivy League',
+    desc: 'Classic left-margin split layout with serif typography, dotted dividers, and timeline dates.',
+    icon: <ScrollText className="w-4 h-4 text-stone-700" />,
+    bgPreview: 'from-stone-700 to-neutral-900',
+  },
   {
     id: 'minimalist',
     label: 'Minimalist Clean',
@@ -305,6 +324,10 @@ export default function EditorPage() {
   const renderTemplate = (pageData?: PaginatedResumePage) => {
     const data = currentProject.structuredData;
     switch (activeTemplateId) {
+      case 'navy':
+        return <NavyTemplate data={data} pageData={pageData} />;
+      case 'traditional':
+        return <TraditionalTemplate data={data} pageData={pageData} />;
       case 'minimalist':
         return <MinimalistTemplate data={data} pageData={pageData} />;
       case 'executive':

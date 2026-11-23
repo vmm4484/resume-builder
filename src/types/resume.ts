@@ -56,6 +56,10 @@ export interface SectionTitles {
   skills?: string;
 }
 
+export interface SectionFontSizes {
+  [key: string]: number | undefined;
+}
+
 export interface StructuredResumeData {
   personalInfo: {
     fullName: string;
@@ -75,9 +79,12 @@ export interface StructuredResumeData {
   customSections: { id: string; title: string; contentHtml: string }[];
   sectionTitles?: SectionTitles;
   sectionOrder?: string[];
+  sectionFontSizes?: SectionFontSizes;
 }
 
 export type TemplateId =
+  | 'traditional'
+  | 'navy'
   | 'modern'
   | 'minimalist'
   | 'executive'

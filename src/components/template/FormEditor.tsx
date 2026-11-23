@@ -9,10 +9,12 @@ import {
   Trash2,
   X,
   Camera,
+  Type,
 } from 'lucide-react';
 import { useRef } from 'react';
 import SectionAccordion from './SectionAccordion';
 import RichTextEditor from '../toolbar/RichTextEditor';
+import FontSizeControl from './FontSizeControl';
 import { useResumeStore } from '../../store/useResumeStore';
 import type {
   StructuredExperience,
@@ -33,6 +35,8 @@ export default function FormEditor() {
     updatePersonalInfo,
     updateStructuredData,
     updateSectionTitle,
+    updateSectionFontSize,
+    resetSectionFontSizes,
     moveSection,
   } = useResumeStore();
 
@@ -49,6 +53,7 @@ export default function FormEditor() {
     customSections,
     sectionTitles,
     sectionOrder,
+    sectionFontSizes = {},
   } = currentProject.structuredData;
 
   // --- Experience helpers ---
@@ -223,14 +228,16 @@ export default function FormEditor() {
             canMoveDown={canMoveDown}
             onTitleChange={(t) => updateSectionTitle('summary', t)}
           >
-            <div>
-              <label className={labelClass}>Summary Text</label>
-              <RichTextEditor
-                value={summaryHtml}
-                onChange={(html) => updateStructuredData({ summaryHtml: html })}
-                placeholder="Write a brief professional summary or career objective highlighting your key achievements and goals..."
-                minHeight="100px"
-              />
+            <div className="space-y-3">
+              <div>
+                <label className={labelClass}>Summary Text</label>
+                <RichTextEditor
+                  value={summaryHtml}
+                  onChange={(html) => updateStructuredData({ summaryHtml: html })}
+                  placeholder="Write a brief professional summary or career objective highlighting your key achievements and goals..."
+                  minHeight="100px"
+                />
+              </div>
             </div>
           </SectionAccordion>
         );
@@ -506,7 +513,7 @@ export default function FormEditor() {
             canMoveDown={canMoveDown}
             onTitleChange={(t) => updateSectionTitle('skills', t)}
           >
-            <div>
+            <div className="space-y-3">
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-3">
                 {skills.map((skill) => (
@@ -587,6 +594,87 @@ export default function FormEditor() {
 
   return (
     <div className="h-full overflow-y-auto p-4 space-y-3">
+      {/* ========= TYPOGRAPHY & FONT SETTINGS (TOP DEDICATED SECTION) ========= */}
+      <SectionAccordion
+        title="Typography & Font Sizes"
+        icon={<Type className="w-4 h-4 text-indigo-600" />}
+        defaultOpen
+      >
+        <div className="space-y-3">
+          <p className="text-xs text-gray-500 leading-relaxed">
+            Change font sizes across your entire resume. Changing <strong className="text-gray-700">All Body Text</strong> or <strong className="text-gray-700">All Section Headings</strong> updates all sections at once. You can directly edit the values by typing or use <span className="font-semibold">- / +</span>.
+          </p>
+
+          <div className="bg-slate-50/90 rounded-lg p-3 border border-slate-200/70 space-y-0.5">
+            <div className="flex items-center justify-between pb-1.5 mb-1 border-b border-slate-200">
+              <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                Font Controls (All Sections)
+              </span>
+              {(sectionFontSizes.globalBody ||
+                sectionFontSizes.globalHeading ||
+                sectionFontSizes.name ||
+                sectionFontSizes.contact) && (
+                <button
+                  type="button"
+                  onClick={resetSectionFontSizes}
+                  className="text-[11px] text-indigo-600 hover:text-indigo-800 font-medium cursor-pointer"
+                >
+                  Reset All
+                </button>
+              )}
+            </div>
+
+            <FontSizeControl
+              label="All Body Text"
+              description="Paragraphs, bullet points, and section text"
+              value={sectionFontSizes.globalBody}
+              defaultValue={13}
+              min={9}
+              max={20}
+              step={0.5}
+              onChange={(size) => updateSectionFontSize('globalBody', size)}
+              onReset={() => updateSectionFontSize('globalBody', 13)}
+            />
+
+            <FontSizeControl
+              label="All Section Headings"
+              description="Headings for Summary, Experience, Skills, Education"
+              value={sectionFontSizes.globalHeading}
+              defaultValue={13.5}
+              min={10}
+              max={24}
+              step={0.5}
+              onChange={(size) => updateSectionFontSize('globalHeading', size)}
+              onReset={() => updateSectionFontSize('globalHeading', 13.5)}
+            />
+
+            <FontSizeControl
+              label="Candidate Name"
+              description="Full name in header"
+              value={sectionFontSizes.name}
+              defaultValue={26}
+              min={16}
+              max={40}
+              step={1}
+              onChange={(size) => updateSectionFontSize('name', size)}
+              onReset={() => updateSectionFontSize('name', 26)}
+            />
+
+            <FontSizeControl
+              label="Contact & Subtitles"
+              description="Job title, email, phone, location"
+              value={sectionFontSizes.contact}
+              defaultValue={12.5}
+              min={9}
+              max={18}
+              step={0.5}
+              onChange={(size) => updateSectionFontSize('contact', size)}
+              onReset={() => updateSectionFontSize('contact', 12.5)}
+            />
+          </div>
+        </div>
+      </SectionAccordion>
+
       {/* ========= PERSONAL INFO (Fixed Header) ========= */}
       <SectionAccordion
         title="Personal Information"
